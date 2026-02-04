@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arsip Manuskrip Digital</title>
+    <title>Arsip Museum Mpu Tantular</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -62,7 +62,7 @@
     <header class="bg-white border-b border-gray-200 py-6 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
             <div>
-                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tighter">MANUSKRIPEDIA <span class="text-blue-600">DIGITAL</span></h1>
+                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tighter">Arsip Museum Mpu Tantular <span class="text-blue-600">DIGITAL</span></h1>
             </div>
             <div id="clock" class="text-lg font-mono text-slate-400">00:00</div>
         </div>
