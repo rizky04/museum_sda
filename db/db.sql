@@ -16,8 +16,8 @@
 
 
 -- Dumping database structure for museum_sda
-CREATE DATABASE IF NOT EXISTS `museum_sda` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `museum_sda`;
+-- CREATE DATABASE IF NOT EXISTS `museum_sda` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+-- USE `museum_sda`;
 
 -- Dumping structure for table museum_sda.books
 CREATE TABLE IF NOT EXISTS `books` (

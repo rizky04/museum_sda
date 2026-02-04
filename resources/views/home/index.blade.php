@@ -130,14 +130,14 @@
                         <span class="font-bold text-slate-500 text-sm uppercase">Penulis/Penyalin</span>
                         <span id="modalAuthor" class="text-slate-900"></span>
                     </div>
-                    <div class="info-row">
+                    {{-- <div class="info-row">
                         <span class="font-bold text-slate-500 text-sm uppercase">Asal Wilayah</span>
                         <span id="modalOrigin" class="text-slate-900">Jawa Tengah</span>
                     </div>
                     <div class="info-row">
                         <span class="font-bold text-slate-500 text-sm uppercase">Kondisi Fisik</span>
                         <span class="text-slate-900">Baik (Digital High Res)</span>
-                    </div>
+                    </div> --}}
                     <div class="info-row">
                         <span class="font-bold text-slate-500 text-sm uppercase">Ringkasan</span>
                         <p id="modalDesc" class="text-slate-600 leading-relaxed text-sm text-justify"></p>
