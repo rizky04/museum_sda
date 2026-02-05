@@ -130,51 +130,47 @@
             </div>
     </main>
 
-    <div id="bookModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-0 md:p-10 bg-slate-900/95 backdrop-blur-md">
-        <div class="bg-white w-full max-w-6xl h-full md:h-[85vh] flex flex-col md:flex-row shadow-2xl overflow-hidden md:rounded-[32px] relative animate-in fade-in zoom-in duration-300">
+    <div id="bookModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 md:p-10 bg-slate-900/90 backdrop-blur-md">
+        <div class="bg-white w-full max-w-6xl h-full md:h-[85vh] flex flex-col md:row shadow-2xl overflow-hidden rounded-[32px] relative animate-in fade-in zoom-in duration-300">
 
-            <button onclick="closeModal()" class="absolute top-4 right-4 z-50 md:hidden bg-white/80 backdrop-blur-md w-10 h-10 rounded-full flex items-center justify-center text-slate-800 shadow-lg">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-
-            <div class="w-full md:w-1/2 modal-gradient p-6 md:p-12 flex items-center justify-center relative min-h-[300px] md:min-h-full">
-                <img id="modalCover" src="" class="h-48 md:h-auto md:max-h-full rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.2)] transform md:-rotate-2 hover:rotate-0 transition-transform duration-500 object-contain">
-            </div>
-
-            <div class="w-full md:w-1/2 flex flex-col bg-white overflow-hidden">
-                <div class="p-8 md:p-12 pb-0 flex justify-between items-start">
-                    <div class="w-full">
-                        <span id="modalTag" class="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-extrabold rounded-full uppercase tracking-wider mb-3 inline-block"></span>
-                        <h2 id="modalTitle" class="text-2xl md:text-4xl font-extrabold text-slate-900 leading-tight"></h2>
-                    </div>
-                    <button onclick="closeModal()" class="hidden md:block text-slate-300 hover:text-rose-500 text-3xl transition-colors">
-                        <i class="fa-solid fa-circle-xmark"></i>
-                    </button>
+            <div class="flex flex-col md:flex-row h-full">
+                <div class="w-full md:w-1/2 modal-gradient p-12 flex items-center justify-center relative">
+                    <img id="modalCover" src="" class="max-h-full rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.2)] transform -rotate-2 hover:rotate-0 transition-transform duration-500">
                 </div>
 
-                <div class="flex-grow overflow-y-auto p-8 md:p-12 pt-4 custom-scroll">
-                    <div class="grid grid-cols-2 gap-4 mb-8">
-                        <div class="info-row border-b-0 bg-slate-50 p-4 rounded-2xl">
+                <div class="w-full md:w-1/2 p-8 md:p-16 overflow-y-auto bg-white custom-scroll">
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <span id="modalTag" class="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-extrabold rounded-full uppercase tracking-wider mb-3 inline-block"></span>
+                            <h2 id="modalTitle" class="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight"></h2>
+                        </div>
+                        <button onclick="closeModal()" class="text-slate-300 hover:text-rose-500 text-3xl transition-colors">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </button>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-10">
+                        <div class="info-row">
                             <span class="font-bold text-slate-400 text-[10px] uppercase tracking-widest">Kode Naskah</span>
-                            <span id="modalCode" class="text-slate-900 font-bold text-base md:text-lg"></span>
+                            <span id="modalCode" class="text-slate-900 font-bold text-lg"></span>
                         </div>
-                        <div class="info-row border-b-0 bg-slate-50 p-4 rounded-2xl">
+                        <div class="info-row">
                             <span class="font-bold text-slate-400 text-[10px] uppercase tracking-widest">Penulis</span>
-                            <span id="modalAuthor" class="text-slate-900 font-semibold text-base md:text-lg"></span>
+                            <span id="modalAuthor" class="text-slate-900 font-semibold"></span>
                         </div>
                     </div>
 
-                    <div class="mb-8">
-                        <span class="font-bold text-slate-400 text-[10px] uppercase tracking-widest mb-2 block font-mono">Ringkasan Manuskrip</span>
-                        <p id="modalDesc" class="text-slate-600 leading-relaxed text-sm md:text-base text-justify italic"></p>
+                    <div class="mb-12">
+                        <span class="font-bold text-slate-400 text-[10px] uppercase tracking-widest mb-2 block">Ringkasan</span>
+                        <p id="modalDesc" class="text-slate-600 leading-relaxed text-sm text-justify"></p>
                     </div>
-                </div>
 
-                <div class="p-8 md:p-12 pt-4 bg-white border-t border-slate-100">
-                    <button onclick="openPDF()" class="w-full py-4 md:py-5 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-200 transition-all flex items-center justify-center gap-3 active:scale-[0.98]">
-                        <i class="fa-solid fa-book-open"></i>
-                        BACA DIGITALISASI LENGKAP
-                    </button>
+                    <div class="sticky bottom-0 bg-white pt-4">
+                        <button onclick="openPDF()" class="w-full py-5 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-200 transition-all flex items-center justify-center gap-3 active:scale-[0.98]">
+                            <i class="fa-solid fa-eye"></i>
+                            BACA DIGITALISASI LENGKAP
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
