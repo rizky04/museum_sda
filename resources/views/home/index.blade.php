@@ -3,83 +3,113 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Arsip Museum Mpu Tantular</title>
+    <title>Digital Archive | Museum Mpu Tantular</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
 
-        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #fdfdfd;
+            color: #1e293b;
+        }
 
-        /* Kartu Katalog ala Manuskripedia */
+        /* Hero & Glassmorphism */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+
+        /* Modern Card Styling */
         .manuskrip-card {
             background: white;
-            border-radius: 4px;
+            border-radius: 20px;
             overflow: hidden;
-            transition: all 0.3s ease;
-            border: 1px solid #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(226, 232, 240, 0.6);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
         }
+
         .manuskrip-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
         }
+
         .manuskrip-card img {
             width: 100%;
-            height: 320px;
+            height: 280px;
             object-fit: cover;
+            transition: transform 0.5s ease;
         }
 
-        /* Navigasi Kategori */
+        .manuskrip-card:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Pill Buttons */
         .cat-btn {
-            padding: 8px 20px;
-            border-radius: 99px;
+            padding: 10px 24px;
+            border-radius: 12px;
             font-size: 0.875rem;
             font-weight: 600;
-            transition: all 0.2s;
-            border: 1px solid #e2e8f0;
-            background: white;
+            transition: all 0.3s;
+            background: #f1f5f9;
             color: #64748b;
         }
+
         .cat-btn.active {
-            background: #1e293b;
+            background: #0f172a;
             color: white;
-            border-color: #1e293b;
+            box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.3);
         }
 
-        .custom-scroll::-webkit-scrollbar { width: 5px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
+        /* Modal styling */
+        .modal-gradient {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+        }
 
         .info-row {
-            display: grid;
-            grid-template-columns: 160px 1fr;
-            padding: 12px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding: 16px 0;
             border-bottom: 1px solid #f1f5f9;
         }
+
+        .custom-scroll::-webkit-scrollbar { width: 6px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
     </style>
 </head>
 <body class="min-h-screen">
 
-    <header class="bg-white border-b border-gray-200 py-6 sticky top-0 z-40">
+    <header class="glass-nav border-b border-gray-100 py-5 sticky top-0 z-40">
         <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <div>
-                <h1 class="text-2xl font-extrabold text-slate-900 tracking-tighter">Arsip Museum Mpu Tantular <span class="text-blue-600">DIGITAL</span></h1>
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
+                    <i class="fa-solid fa-scroll text-lg"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold text-slate-900 tracking-tight leading-none">Mpu Tantular</h1>
+                    <span class="text-[10px] font-bold text-indigo-500 uppercase tracking-[0.2em]">Digital Archive</span>
+                </div>
             </div>
-            <div id="clock" class="text-lg font-mono text-slate-400">00:00</div>
+            <div id="clock" class="hidden md:block px-4 py-2 bg-slate-50 rounded-lg font-mono text-sm font-semibold text-slate-500">
+                00:00:00
+            </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-10">
+    <main class="max-w-7xl mx-auto px-6 py-12">
 
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
-            {{-- <div class="flex flex-wrap gap-2" id="categoryFilters">
-                <button onclick="filterCategory('All')" class="cat-btn active">Semua</button>
-                <button onclick="filterCategory('Babad')" class="cat-btn">Babad</button>
-                <button onclick="filterCategory('Hikayat')" class="cat-btn">Hikayat</button>
-                <button onclick="filterCategory('Serat')" class="cat-btn">Serat</button>
-                <button onclick="filterCategory('Primbon')" class="cat-btn">Primbon</button>
-            </div> --}}
+        <div class="mb-12">
+            <h2 class="text-4xl font-extrabold text-slate-900 mb-2">Eksplorasi Manuskrip</h2>
+            <p class="text-slate-500 max-w-2xl">Menelusuri jejak sejarah melalui digitalisasi naskah kuno koleksi Museum Mpu Tantular Jawa Timur.</p>
+        </div>
 
-            <div class="flex flex-wrap gap-2" id="categoryFilters">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-12">
+            <div class="flex flex-wrap gap-3" id="categoryFilters">
                 <button onclick="filterCategory('All')" class="cat-btn active">Semua</button>
                 @foreach($categories as $cat)
                     <button onclick="filterCategory('{{ $cat->category_name }}')" class="cat-btn">
@@ -88,11 +118,11 @@
                 @endforeach
             </div>
 
-            <div class="relative w-full md:w-96">
+            <div class="relative group">
                 <input type="text" id="searchInput" onkeyup="searchBooks()"
                     placeholder="Cari judul atau kode..."
-                    class="w-full pl-12 pr-4 py-3 bg-white border border-slate-200 rounded-lg outline-none focus:ring-2 focus:ring-blue-500 transition-all">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 top-4 text-slate-400"></i>
+                    class="w-full md:w-80 pl-12 pr-6 py-3.5 bg-slate-50 border border-slate-200 rounded-2xl outline-none focus:bg-white focus:ring-4 focus:ring-indigo-500/10 focus:border-indigo-500 transition-all">
+                <i class="fa-solid fa-magnifying-glass absolute left-4 top-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors"></i>
             </div>
         </div>
 
@@ -100,94 +130,100 @@
             </div>
     </main>
 
-    <div id="bookModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-900/80 backdrop-blur-sm">
-        <div class="bg-white w-full max-w-6xl h-[90vh] flex flex-col md:flex-row shadow-2xl overflow-hidden rounded-lg">
+    <div id="bookModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 md:p-10 bg-slate-900/90 backdrop-blur-md">
+        <div class="bg-white w-full max-w-6xl h-full md:h-[85vh] flex flex-col md:row shadow-2xl overflow-hidden rounded-[32px] relative animate-in fade-in zoom-in duration-300">
 
-            <div class="w-full md:w-5/12 bg-slate-100 p-8 flex items-center justify-center relative">
-                <button onclick="closeModal()" class="absolute top-4 left-4 md:hidden text-2xl text-slate-800">
-                    <i class="fa-solid fa-arrow-left"></i>
-                </button>
-                <img id="modalCover" src="" class="max-h-full shadow-2xl border-8 border-white object-contain">
-            </div>
-
-            <div class="w-full md:w-7/12 p-10 overflow-y-auto bg-white custom-scroll">
-                <div class="flex justify-between items-start mb-8">
-                    <div>
-                        <span id="modalTag" class="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded uppercase mb-2 inline-block"></span>
-                        <h2 id="modalTitle" class="text-4xl font-bold text-slate-900 leading-tight uppercase"></h2>
-                    </div>
-                    <button onclick="closeModal()" class="hidden md:block text-slate-300 hover:text-red-500 text-3xl transition-colors">
-                        <i class="fa-solid fa-circle-xmark"></i>
-                    </button>
+            <div class="flex flex-col md:flex-row h-full">
+                <div class="w-full md:w-1/2 modal-gradient p-12 flex items-center justify-center relative">
+                    <img id="modalCover" src="" class="max-h-full rounded-lg shadow-[0_20px_50px_rgba(0,0,0,0.2)] transform -rotate-2 hover:rotate-0 transition-transform duration-500">
                 </div>
 
-                <div class="space-y-1 mb-10">
-                    <div class="info-row">
-                        <span class="font-bold text-slate-500 text-sm uppercase">Kode Naskah</span>
-                        <span id="modalCode" class="text-slate-900 font-mono font-bold"></span>
+                <div class="w-full md:w-1/2 p-8 md:p-16 overflow-y-auto bg-white custom-scroll">
+                    <div class="flex justify-between items-start mb-8">
+                        <div>
+                            <span id="modalTag" class="px-3 py-1 bg-indigo-50 text-indigo-600 text-[10px] font-extrabold rounded-full uppercase tracking-wider mb-3 inline-block"></span>
+                            <h2 id="modalTitle" class="text-3xl md:text-4xl font-extrabold text-slate-900 leading-tight"></h2>
+                        </div>
+                        <button onclick="closeModal()" class="text-slate-300 hover:text-rose-500 text-3xl transition-colors">
+                            <i class="fa-solid fa-circle-xmark"></i>
+                        </button>
                     </div>
-                    <div class="info-row">
-                        <span class="font-bold text-slate-500 text-sm uppercase">Penulis/Penyalin</span>
-                        <span id="modalAuthor" class="text-slate-900"></span>
+
+                    <div class="grid grid-cols-2 gap-4 mb-10">
+                        <div class="info-row">
+                            <span class="font-bold text-slate-400 text-[10px] uppercase tracking-widest">Kode Naskah</span>
+                            <span id="modalCode" class="text-slate-900 font-bold text-lg"></span>
+                        </div>
+                        <div class="info-row">
+                            <span class="font-bold text-slate-400 text-[10px] uppercase tracking-widest">Penulis</span>
+                            <span id="modalAuthor" class="text-slate-900 font-semibold"></span>
+                        </div>
                     </div>
-                    {{-- <div class="info-row">
-                        <span class="font-bold text-slate-500 text-sm uppercase">Asal Wilayah</span>
-                        <span id="modalOrigin" class="text-slate-900">Jawa Tengah</span>
-                    </div>
-                    <div class="info-row">
-                        <span class="font-bold text-slate-500 text-sm uppercase">Kondisi Fisik</span>
-                        <span class="text-slate-900">Baik (Digital High Res)</span>
-                    </div> --}}
-                    <div class="info-row">
-                        <span class="font-bold text-slate-500 text-sm uppercase">Ringkasan</span>
+
+                    <div class="mb-12">
+                        <span class="font-bold text-slate-400 text-[10px] uppercase tracking-widest mb-2 block">Ringkasan</span>
                         <p id="modalDesc" class="text-slate-600 leading-relaxed text-sm text-justify"></p>
                     </div>
-                </div>
 
-                <button onclick="window.open('example.pdf')" class="w-full py-4 bg-slate-900 text-white font-bold rounded hover:bg-blue-600 transition-all flex items-center justify-center gap-3">
-                    <i class="fa-solid fa-book-open-reader"></i>
-                    BACA DIGITALISASI LENGKAP
-                </button>
+                    <div class="sticky bottom-0 bg-white pt-4">
+                        <button onclick="openPDF()" class="w-full py-5 bg-indigo-600 text-white font-bold rounded-2xl hover:bg-indigo-700 hover:shadow-xl hover:shadow-indigo-200 transition-all flex items-center justify-center gap-3 active:scale-[0.98]">
+                            <i class="fa-solid fa-eye"></i>
+                            BACA DIGITALISASI LENGKAP
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div id="pdfViewer" class="fixed inset-0 z-[60] hidden bg-slate-900 flex flex-col">
-        <div class="bg-slate-800 p-4 flex justify-between items-center text-white border-b border-slate-700">
-            <h3 id="pdfTitle" class="font-bold uppercase tracking-wider">Membaca Manuskrip</h3>
-            <button onclick="closePDF()" class="bg-red-600 hover:bg-red-700 px-6 py-2 rounded-lg font-bold transition-all">
-                KEMBALI KE DETAIL
+
+    <div id="pdfViewer" class="fixed inset-0 z-[60] hidden bg-slate-950 flex flex-col">
+        <div class="bg-slate-900/50 backdrop-blur-md p-4 flex justify-between items-center text-white border-b border-white/10">
+            <div class="flex items-center gap-4">
+                <i class="fa-solid fa-file-pdf text-rose-500 text-2xl"></i>
+                <h3 id="pdfTitle" class="font-bold text-sm md:text-base uppercase tracking-widest opacity-80">Membaca Manuskrip</h3>
+            </div>
+            <button onclick="closePDF()" class="bg-rose-500 hover:bg-rose-600 px-6 py-2 rounded-xl font-bold transition-all shadow-lg shadow-rose-500/20 text-sm">
+                TUTUP PANEL
             </button>
         </div>
-
-        <div class="flex-grow w-full h-full">
+        <div class="flex-grow w-full h-full bg-slate-800">
             <iframe id="pdfFrame" src="" class="w-full h-full border-none"></iframe>
         </div>
     </div>
 
     <script>
-      const books = @json($books).map(book => ({
-        id: book.id,
-        code: "MS-" + book.id, // Sesuaikan jika ada kolom kode naskah sendiri
-        category: book.category ? book.category.category_name : 'Uncategorized',
-        title: book.title,
-        author: book.author,
-        desc: book.description,
-        // Path storage Laravel
-        cover: `/storage/${book.cover_image}`,
-        pdf: `/storage/${book.pdf_file}`
-    }));
+        // Data dari Laravel
+        const books = @json($books).map(book => ({
+            id: book.id,
+            code: book.manuscript_code || "MS-" + book.id,
+            category: book.category ? book.category.category_name : 'Koleksi',
+            title: book.title,
+            author: book.author || 'Anonim',
+            desc: book.description || 'Tidak ada deskripsi tersedia.',
+            cover: `/storage/${book.cover_image}`,
+            pdf: `/storage/${book.pdf_file}`
+        }));
 
         let currentCategory = 'All';
+        let currentActiveId = null;
 
         function displayBooks(data) {
             const grid = document.getElementById('bookGrid');
             grid.innerHTML = data.map(book => `
-                <div onclick="showDetail(${book.id})" class="manuskrip-card cursor-pointer">
-                    <img src="${book.cover}" alt="${book.title}">
-                    <div class="p-5">
-                        <div class="text-[10px] font-black text-blue-600 mb-1 tracking-widest uppercase">${book.category} | ${book.code}</div>
-                        <h3 class="font-bold text-slate-800 uppercase text-sm leading-tight mb-2">${book.title}</h3>
-                        <p class="text-xs text-slate-400">Oleh: ${book.author}</p>
+                <div onclick="showDetail(${book.id})" class="manuskrip-card cursor-pointer group">
+                    <div class="overflow-hidden relative">
+                        <img src="${book.cover}" alt="${book.title}">
+                        <div class="absolute inset-0 bg-black/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                             <span class="bg-white/90 text-slate-900 px-4 py-2 rounded-full font-bold text-xs">Lihat Detail</span>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-3">
+                            <span class="text-[9px] font-extrabold text-indigo-600 tracking-widest uppercase bg-indigo-50 px-2 py-1 rounded">${book.category}</span>
+                            <span class="text-[9px] font-mono text-slate-400 font-bold">${book.code}</span>
+                        </div>
+                        <h3 class="font-bold text-slate-800 uppercase text-sm leading-snug mb-2 group-hover:text-indigo-600 transition-colors">${book.title}</h3>
+                        <p class="text-[11px] text-slate-400 font-medium italic">Oleh: ${book.author}</p>
                     </div>
                 </div>
             `).join('');
@@ -195,12 +231,11 @@
 
         function filterCategory(cat) {
             currentCategory = cat;
-
-            // Update button UI
             document.querySelectorAll('.cat-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.innerText === (cat === 'All' ? 'Semua' : cat));
+                const btnText = btn.innerText;
+                const compareText = cat === 'All' ? 'Semua' : cat;
+                btn.classList.toggle('active', btnText === compareText);
             });
-
             const filtered = cat === 'All' ? books : books.filter(b => b.category === cat);
             displayBooks(filtered);
         }
@@ -215,97 +250,48 @@
         }
 
         function showDetail(id) {
-        const book = books.find(b => b.id === id);
-        if(!book) return;
+            currentActiveId = id;
+            const book = books.find(b => b.id === id);
+            if(!book) return;
 
-        document.getElementById('modalTitle').innerText = book.title;
-        document.getElementById('modalCode').innerText = book.code;
-        document.getElementById('modalAuthor').innerText = book.author;
-        document.getElementById('modalDesc').innerText = book.desc;
-        document.getElementById('modalCover').src = book.cover;
-        document.getElementById('modalTag').innerText = book.category;
+            document.getElementById('modalTitle').innerText = book.title;
+            document.getElementById('modalCode').innerText = book.code;
+            document.getElementById('modalAuthor').innerText = book.author;
+            document.getElementById('modalDesc').innerText = book.desc;
+            document.getElementById('modalCover').src = book.cover;
+            document.getElementById('modalTag').innerText = book.category;
 
-        // Update link tombol BACA PDF
-        const pdfBtn = document.querySelector('#bookModal button[onclick^="window.open"]');
-        pdfBtn.setAttribute('onclick', `window.open('${book.pdf}', '_blank')`);
-
-        document.getElementById('bookModal').classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
-
-        // function showDetail(id) {
-        //     const book = books.find(b => b.id === id);
-        //     if(!book) return;
-
-        //     document.getElementById('modalTitle').innerText = book.title;
-        //     document.getElementById('modalCode').innerText = book.code;
-        //     document.getElementById('modalAuthor').innerText = book.author;
-        //     document.getElementById('modalDesc').innerText = book.desc;
-        //     document.getElementById('modalCover').src = book.cover;
-        //     document.getElementById('modalTag').innerText = book.category;
-
-        //     document.getElementById('bookModal').classList.remove('hidden');
-        //     document.body.style.overflow = 'hidden';
-        // }
+            document.getElementById('bookModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
 
         function closeModal() {
             document.getElementById('bookModal').classList.add('hidden');
             document.body.style.overflow = 'auto';
         }
 
-        // Initial
-        displayBooks(books);
+        function openPDF() {
+            const book = books.find(b => b.id == currentActiveId);
+            if(!book) return;
+
+            document.getElementById('pdfTitle').innerText = `Membaca: ${book.title}`;
+            document.getElementById('pdfFrame').src = book.pdf + "#toolbar=0";
+            document.getElementById('pdfViewer').classList.remove('hidden');
+        }
+
+        function closePDF() {
+            document.getElementById('pdfViewer').classList.add('hidden');
+            document.getElementById('pdfFrame').src = "";
+        }
+
+        // Clock
         setInterval(() => {
             const now = new Date();
-            document.getElementById('clock').innerText = now.toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'});
+            document.getElementById('clock').innerText = now.toLocaleTimeString('id-ID');
         }, 1000);
 
-
-        function openPDF() {
-        const book = books.find(b => b.id == currentActiveId); // Ambil ID buku yang sedang dibuka
-        if(!book) return;
-
-        const pdfUrl = book.pdf;
-        const viewerTitle = book.title;
-
-        // Set Judul di Viewer
-        document.getElementById('pdfTitle').innerText = `Membaca: ${viewerTitle}`;
-
-        // Load PDF ke iframe
-        // Kita gunakan browser native viewer agar lebih ringan untuk kiosk
-        document.getElementById('pdfFrame').src = pdfUrl + "#toolbar=0&navpanes=0&scrollbar=0";
-
-        // Tampilkan Viewer
-        document.getElementById('pdfViewer').classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closePDF() {
-        document.getElementById('pdfViewer').classList.add('hidden');
-        document.getElementById('pdfFrame').src = ""; // Stop loading PDF saat ditutup
-    }
-
-    // Ubah sedikit fungsi showDetail agar kita tahu ID mana yang aktif
-    let currentActiveId = null;
-    function showDetail(id) {
-        currentActiveId = id; // Simpan ID yang aktif
-        const book = books.find(b => b.id === id);
-        if(!book) return;
-
-        document.getElementById('modalTitle').innerText = book.title;
-        document.getElementById('modalCode').innerText = book.code;
-        document.getElementById('modalAuthor').innerText = book.author;
-        document.getElementById('modalDesc').innerText = book.desc;
-        document.getElementById('modalCover').src = book.cover;
-        document.getElementById('modalTag').innerText = book.category;
-
-        // Update tombol baca agar memanggil fungsi openPDF internal
-        const pdfBtn = document.querySelector('#bookModal button[onclick^="window.open"]');
-        pdfBtn.setAttribute('onclick', `openPDF()`);
-
-        document.getElementById('bookModal').classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
+        // Initial Load
+        displayBooks(books);
     </script>
 </body>
 </html>
