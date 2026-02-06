@@ -12,4 +12,19 @@ class Category extends Model
     {
         return $this->hasMany(Book::class);
     }
+    public function parent()
+{
+    return $this->belongsTo(Category::class, 'parent_id');
+}
+
+public function children()
+{
+    return $this->hasMany(Category::class, 'parent_id');
+}
+
+// Opsional: Untuk mendapatkan semua produk dari kategori ini DAN sub-kategorinya
+public function allBooks()
+{
+    return $this->hasMany(Book::class);
+}
 }

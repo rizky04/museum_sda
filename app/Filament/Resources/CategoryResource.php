@@ -30,6 +30,12 @@ class CategoryResource extends Resource
                         ->unique(ignoreRecord: true) // Mencegah nama kategori ganda
                         ->maxLength(50)
                         ->placeholder('Contoh: Sejarah, Seni, Arkeologi'),
+                        Forms\Components\Select::make('parent_id')
+                ->label('Induk Kategori')
+                ->relationship('parent', 'category_name')
+                ->searchable()
+                ->preload()
+                ->helperText('Kosongkan jika ini adalah kategori utama (Level 1)'),
                 ])
             ]);
     }
