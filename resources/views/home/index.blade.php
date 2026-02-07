@@ -117,7 +117,7 @@
                     </div>
 
                     <div class="border-t border-stone-100 pt-6">
-                        <h4 class="text-xs font-extrabold text-amber-900 uppercase tracking-widest mb-4"><i class="fa-solid fa-comments mr-2"></i>Diskusi</h4>
+                        <h4 class="text-xs font-extrabold text-amber-900 uppercase tracking-widest mb-4"><i class="fa-solid fa-comments mr-2"></i>Komentar</h4>
                         <div class="bg-stone-50 p-4 md:p-5 rounded-2xl mb-6 border border-stone-200">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                                 <input type="text" id="commentName" placeholder="Nama Anda" class="w-full bg-white border border-stone-200 rounded-xl px-4 py-2 text-sm outline-none focus:border-amber-500">
@@ -223,7 +223,7 @@
             try {
                 const response = await fetch(`/comments/${bookId}`);
                 const comments = await response.json();
-                list.innerHTML = comments.length === 0 ? '<p class="text-stone-400 text-xs italic">Belum ada diskusi.</p>' :
+                list.innerHTML = comments.length === 0 ? '<p class="text-stone-400 text-xs italic">Belum ada komentar.</p>' :
                 comments.map(c => `
                     <div class="bg-stone-50 p-4 rounded-xl border border-stone-100">
                         <div class="flex justify-between items-center mb-1">
