@@ -70,6 +70,12 @@ class BookResource extends Resource
                 ->searchable(),
             Tables\Columns\TextColumn::make('category.category_name')
                 ->badge(),
+                Tables\Columns\TextColumn::make('view_count')
+                ->label('Dilihat')
+                ->suffix(' kali')
+                ->sortable()
+                ->color('success')
+                ->icon('heroicon-m-eye'),
             Tables\Columns\TextColumn::make('created_at')
                 ->dateTime()
                 ->sortable()

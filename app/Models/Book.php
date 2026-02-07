@@ -15,4 +15,9 @@ class Book extends Model
     {
         return $this->belongsTo(Category::class);
     }
+    // Relasi ke komentar
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
 }

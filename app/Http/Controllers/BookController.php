@@ -62,4 +62,12 @@ class BookController extends Controller
     {
         //
     }
+
+    public function incrementView($id)
+{
+    $book = Book::findOrFail($id);
+    $book->increment('view_count'); // Menambah +1 setiap dipanggil
+
+    return response()->json(['status' => 'success', 'views' => $book->view_count]);
+}
 }
