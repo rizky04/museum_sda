@@ -21,65 +21,6 @@
         .custom-scroll::-webkit-scrollbar-thumb { background: #d6d3d1; border-radius: 10px; }
         .modal-gradient { background: linear-gradient(135deg, #f5f5f4 0%, #e7e5e4 100%); }
         .no-scrollbar::-webkit-scrollbar { display: none; }
-        /* Styling Dropdown */
-    /* Styling Dropdown */
-.dropdown { position: relative; }
-
-/* Level 2: Turun ke bawah */
-.dropdown-content {
-    display: none;
-    position: absolute;
-    top: 100%; /* Memastikan menu muncul di bawah header navigasi */
-    left: 0;
-    background-color: white;
-    min-width: 240px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    z-index: 100;
-    border-radius: 12px;
-    padding: 8px;
-    border: 1px solid #f1f5f9;
-}
-
-/* Level 3: Muncul di samping kanan Level 2 */
-.submenu {
-    display: none;
-    position: absolute;
-    top: 0;
-    left: 100%; /* Muncul di samping kanan */
-    background-color: white;
-    min-width: 220px;
-    box-shadow: 10px 10px 25px rgba(0,0,0,0.1);
-    border-radius: 12px;
-    padding: 8px;
-    border: 1px solid #f1f5f9;
-}
-
-/* Hover Logic */
-.dropdown:hover > .dropdown-content { display: block; animation: slideDown 0.2s ease-out; }
-.dropdown-item-container:hover > .submenu { display: block; animation: slideRight 0.2s ease-out; }
-
-.dropdown-item {
-    padding: 10px 16px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #57534e;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    transition: all 0.2s;
-    cursor: pointer;
-}
-.dropdown-item:hover { background-color: #fff7ed; color: #9a3412; }
-
-@keyframes slideDown {
-    from { opacity: 0; transform: translateY(10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-@keyframes slideRight {
-    from { opacity: 0; transform: translateX(-10px); }
-    to { opacity: 1; transform: translateX(0); }
-}
     </style>
 </head>
 <body class="min-h-screen">
@@ -103,90 +44,21 @@
         </div>
     </header>
 
-
-    {{-- <nav class="sticky top-20 z-40 bg-white border-b border-stone-100 shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center">
-            <div class="flex gap-8 items-center" id="navContainer">
+    <nav class="sticky top-20 z-40 bg-white border-b border-stone-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex gap-10 overflow-x-auto no-scrollbar items-center" id="parentNav">
                 <button onclick="resetToHome()" id="btn-all" class="nav-link active uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-house-chimney text-[10px]"></i> SEMUA
+                    <i class="fa-solid fa-house-chimney text-[10px]"></i> SEMUA KOLEKSI
                 </button>
-
-                @foreach($categories->where('parent_id', null) as $parent)
-                    <div class="dropdown h-full flex items-center">
-                        <button onclick="filterByCategoryId({{ $parent->id }}, '{{ $parent->category_name }}')"
-                                class="nav-link uppercase flex items-center gap-1">
-                            {{ $parent->category_name }}
-                            @if($categories->where('parent_id', $parent->id)->count() > 0)
-                                <i class="fa-solid fa-chevron-down text-[8px] opacity-50"></i>
-                            @endif
-                        </button>
-
-                        @if($categories->where('parent_id', $parent->id)->count() > 0)
-                        <div class="dropdown-content">
-                            @foreach($categories->where('parent_id', $parent->id) as $child)
-                                <a href="javascript:void(0)"
-                                   onclick="filterByCategoryId({{ $child->id }}, '{{ $child->category_name }}')"
-                                   class="dropdown-item">
-                                    {{ $child->category_name }}
-                                    <i class="fa-solid fa-chevron-right text-[8px] opacity-30"></i>
-                                </a>
-                            @endforeach
-                        </div>
-                        @endif
-                    </div>
+                @foreach($categories->where('parent_id', null) as $cat)
+                    <button onclick="handleParentClick({{ $cat->id }}, '{{ $cat->category_name }}')" id="parent-{{ $cat->id }}" class="nav-link uppercase">
+                        {{ $cat->category_name }}
+                    </button>
                 @endforeach
             </div>
         </div>
-    </nav> --}}
-
-    <nav class="sticky top-20 z-40 bg-white border-b border-stone-100 shadow-sm">
-        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center">
-            <div class="flex gap-8 items-center" id="navContainer">
-                <button onclick="resetToHome()" id="btn-all" class="nav-link active uppercase flex items-center gap-2">
-                    <i class="fa-solid fa-house-chimney text-[10px]"></i> SEMUA
-                </button>
-
-                @foreach($categories->where('parent_id', null) as $parent)
-                    <div class="dropdown h-full flex items-center">
-                        <button onclick="filterByCategoryId({{ $parent->id }}, '{{ $parent->category_name }}')"
-                                class="nav-link uppercase flex items-center gap-1">
-                            {{ $parent->category_name }}
-                            @if($categories->where('parent_id', $parent->id)->count() > 0)
-                                <i class="fa-solid fa-chevron-down text-[8px] opacity-50"></i>
-                            @endif
-                        </button>
-
-                        @if($categories->where('parent_id', $parent->id)->count() > 0)
-                        <div class="dropdown-content">
-                            @foreach($categories->where('parent_id', $parent->id) as $child)
-                                <div class="dropdown-item-container relative">
-                                    <a href="javascript:void(0)"
-                                       onclick="filterByCategoryId({{ $child->id }}, '{{ $child->category_name }}')"
-                                       class="dropdown-item">
-                                        {{ $child->category_name }}
-                                        @if($categories->where('parent_id', $child->id)->count() > 0)
-                                            <i class="fa-solid fa-chevron-right text-[8px] opacity-40"></i>
-                                        @endif
-                                    </a>
-
-                                    @if($categories->where('parent_id', $child->id)->count() > 0)
-                                    <div class="submenu">
-                                        @foreach($categories->where('parent_id', $child->id) as $grandChild)
-                                            <a href="javascript:void(0)"
-                                               onclick="filterByCategoryId({{ $grandChild->id }}, '{{ $grandChild->category_name }}')"
-                                               class="dropdown-item">
-                                                {{ $grandChild->category_name }}
-                                            </a>
-                                        @endforeach
-                                    </div>
-                                    @endif
-                                </div>
-                            @endforeach
-                        </div>
-                        @endif
-                    </div>
-                @endforeach
-            </div>
+        <div id="subNavbar" class="bg-stone-50 border-t border-stone-100 hidden">
+            <div class="max-w-7xl mx-auto px-6 flex gap-4 py-4 overflow-x-auto no-scrollbar" id="childNav"></div>
         </div>
     </nav>
 
@@ -389,13 +261,13 @@
             const kw = document.getElementById('searchInput').value.toLowerCase();
             displayBooks(books.filter(b => b.title.toLowerCase().includes(kw) || b.code.toLowerCase().includes(kw)));
         }
-
         function resetToHome() {
-        document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-        document.getElementById('btn-all').classList.add('active');
-        document.getElementById('breadcrumb').classList.add('hidden');
-        displayBooks(books);
-    }
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            document.getElementById('btn-all').classList.add('active');
+            document.getElementById('subNavbar').classList.add('hidden');
+            document.getElementById('breadcrumb').classList.add('hidden');
+            displayBooks(books);
+        }
         function handleParentClick(id, name) {
             document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
             document.getElementById(`parent-${id}`).classList.add('active');
@@ -413,34 +285,14 @@
             document.getElementById('bc-child').innerText = name;
             filterByCategoryId(id);
         }
-
-        function filterByCategoryId(id, name) {
-        // Update UI state
-        document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
-
-        // Tampilkan breadcrumb
-        const bc = document.getElementById('breadcrumb');
-        bc.classList.remove('hidden');
-        document.getElementById('bc-parent').innerText = name;
-        document.getElementById('bc-child').classList.add('hidden');
-        document.getElementById('bc-separator').classList.add('hidden');
-
-        // Logic Rekursif: Ambil ID kategori ini dan semua ID anak/cucunya
-        const getRecursiveIds = (parentId) => {
-            let ids = [parentId];
-            const children = allCategories.filter(c => c.parent_id === parentId);
-            children.forEach(child => {
-                ids = [...ids, ...getRecursiveIds(child.id)];
-            });
-            return ids;
-        };
-
-        const targetIds = getRecursiveIds(id);
-
-        // Filter buku yang memiliki category_id dalam daftar targetIds
-        const filtered = books.filter(b => targetIds.includes(b.category_id));
-        displayBooks(filtered);
-    }
+        function filterByCategoryId(id) {
+            const getIds = (pId) => {
+                let res = [pId];
+                allCategories.filter(c => c.parent_id === pId).forEach(c => res = [...res, ...getIds(c.id)]);
+                return res;
+            };
+            displayBooks(books.filter(b => getIds(id).includes(b.category_id)));
+        }
         setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString('id-ID'); }, 1000);
         window.onload = () => displayBooks(books);
     </script>
