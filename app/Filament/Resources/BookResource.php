@@ -50,6 +50,7 @@ class BookResource extends Resource
 
                 Forms\Components\FileUpload::make('pdf_file')
                     ->acceptedFileTypes(['application/pdf']) // Hanya boleh PDF
+                    ->maxSize(51200) // Maksimal 50 MB
                     ->directory('documents')
                     ->preserveFilenames()
                     ->required(),
